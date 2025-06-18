@@ -1,1 +1,146 @@
+//question 1 Reverse Digits
+class Solution {
+  public:
+    int reverseDigits(int n) {
+        // Code here
+        int s=0;
+        while(n>0){
+            s=s*10+n%10;
+            n/=10;
+        }
+        return s;
+    }
+};
 
+//question 2 Search Insert Position
+class Solution {
+public:
+ int search(vector<int>& nums,int i, int j, int target){
+    if(i>j){return i;}
+    int mid=i+(j-i)/2;
+            if(nums[mid]==target){
+                return mid;
+            }
+            else if(target<nums[mid]){
+                return search(nums,i,(mid)-1,target);
+            }
+            else{
+               return search(nums,(mid)+1,j,target);
+            }
+        }
+    int searchInsert(vector<int>& nums, int target) {
+
+        int i=0,j=nums.size()-1;
+        return search(nums,i,j,target);
+    }
+};
+
+//question 3: Single Number
+class Solution {
+public:
+    int singleNumber(vector<int>& nums) {
+        int k;
+        
+        for(int i=0;i<nums.size()-1;i++){
+            bool b=true;
+            for(int j=0;j<nums.size();j++){
+                if(i==j){ continue;}
+                if(nums[i]==nums[j]){
+                    b=false;
+                    break;
+                }
+            }
+            if(b==true){
+                k=nums[i];
+                break;
+            }
+        }
+        return k;
+    }
+};
+
+//question 4: Reverse Linked List
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* reverseList(ListNode* head) {
+        if(head==NULL||head->next==NULL){
+            return head;
+        }
+        ListNode* tempbw=head;
+        ListNode* temp=head->next;
+        ListNode* tempfw=head->next->next;
+        head->next=NULL;
+        while(tempfw!=NULL){
+            temp->next=tempbw;
+            tempbw=temp;
+            temp=tempfw;
+            tempfw=tempfw->next;
+        }
+        temp->next=tempbw;
+        head=temp;
+        return head;
+    }
+};
+
+//question 5: Rotate Image
+class Solution {
+public:
+    void rotate(vector<vector<int>>& matrix) {
+        for(int i=0;i<matrix.size();i++){
+            for(int j=i+1;j<matrix.size();j++){
+                swap(matrix[i][j],matrix[j][i]);
+                // swap(matrix[i][j],matrix[i][matrix.size()-1-i]);
+            }
+        }
+        for (int i = 0; i < matrix.size(); i++) {
+            int left = 0, right = matrix.size() - 1;
+            while (left < right) {
+                swap(matrix[i][left], matrix[i][right]);
+                    left++;
+                    right--;
+    }
+}
+
+        cout<<"[";
+        for(int i=0;i<matrix.size();i++){
+            cout<<"[";
+            for(int j=0;j<matrix.size();j++){
+                cout<<matrix[i][j]<<",";
+            }
+            cout<<"],";
+        }
+        cout<<"]";
+    }
+};
+
+//question 6: missing numbers
+class Solution {
+public:
+    int missingNumber(vector<int>& nums) {
+        int k;
+        for(int i=0;i<=nums.size();i++){
+            bool b=true;
+            for(int j=0;j<nums.size();j++){
+                if(i==nums[j]){
+                    b=false;
+                    break;
+                }
+            }
+            if(b){
+                k=i;
+                break;
+            }
+        }
+        return k;
+    }
+};
