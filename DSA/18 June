@@ -1,0 +1,89 @@
+//question 1: Two Sum
+class Solution {
+public:
+    vector<int> twoSum(vector<int> &nums, int target) {
+        int k=-1,l;
+        for (int i = 0; i < nums.size(); i++) {
+            for (int j = i + 1; j < nums.size(); j++) {
+                if (nums[j] == target - nums[i]) {
+                    
+                    k=i;
+                    l=j;
+                    break;
+                }
+            }
+            if(k==i){
+                break;
+            }
+        }
+        return {k,l};
+    }
+};
+
+//question 2: party of couples or alone in couples
+// User function Template for C++
+
+class Solution {
+  public:
+    int findSingle(vector<int> &arr) {
+        // code here
+        int k=arr[0];
+        int l;
+        for(int i=1;i<arr.size();i++){
+            if(k<arr[i]){
+                k=arr[i];
+            }
+        }
+        vector<int> vec(k+1,0);
+        for(int i=0;i<arr.size();i++){
+            vec[arr[i]]++;
+        }
+        for(int i=0;i<arr.size();i++){
+            if(vec[arr[i]]==1){
+                l=arr[i];
+                break;
+            }
+        }
+        
+        return l;
+    }
+    
+};
+
+//question 3: Best time to buy and sell stocks
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int minPrice = INT_MAX;
+        int maxProfit = 0;
+
+        for (int price : prices) {
+            if (price < minPrice) {
+                minPrice = price; 
+            } else {
+                maxProfit = max(maxProfit, price - minPrice); 
+            }
+        }
+
+        return maxProfit;
+    }
+};
+
+//question 4: Sort colours
+class Solution {
+public:
+    void sortColors(vector<int>& nums) {
+        for(int i=0;i<nums.size()-1;i++){
+            for(int j=1;j<nums.size()-i;j++){
+                if(nums[j]<nums[j-1]){
+                    swap(nums[j],nums[j-1]);
+                }
+            }
+        }
+        cout<<"[";
+        for(int i=0;i<nums.size();i++){
+            cout<<nums[i]<<",";
+        }
+        cout<<"]";
+    }
+};
