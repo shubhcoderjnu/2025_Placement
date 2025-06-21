@@ -1,0 +1,126 @@
+//question1: Find the Town Judge
+class Solution {
+public:
+    int findJudge(int n, vector<vector<int>>& trust) {
+        if(trust.size()==0){
+            if(n==1){
+                return 1;
+            }
+            else{
+                return -1;
+            }
+        }
+        vector<vector<int>> arr(n+1);
+        for(int i=0;i<trust.size();i++){
+            arr[trust[i][0]].push_back(trust[i][1]);
+        }
+        int k=0,l;
+        for(int i=1;i<=n;i++){
+            if(arr[i].size()==0){
+                k++;
+                l=i;
+            }
+        }
+        if(k!=1){
+            return -1;
+        }
+        for(int i=1;i<=n;i++){
+            bool b;
+            if(arr[i].size()!=0){
+                b=true;
+                for(int j=0;j<arr[i].size();j++){
+                    if(arr[i][j]==l){
+                        b=false;
+                        break;
+                    }
+                }
+            }
+            if(b==true){
+                return -1;
+            }
+        }
+        return l;
+    }
+};
+
+//question2: Plus One
+class Solution {
+public:
+    vector<int> plusOne(vector<int>& digits) {
+        uint64_t k=1;
+        for(int i=digits.size()-1;i>=0;i--){
+            int s=digits[i]+k;
+            digits[i]=s%10;
+            k=s/10;
+        }
+        if(k>0){
+            digits.insert(digits.begin(),k);
+            
+        }
+        return digits;
+    }
+};
+
+//question3: Maximum Subarray
+class Solution {
+public:
+    int maxSubArray(vector<int>& nums) {
+    int max_sum=INT_MIN;
+    int sum=0;
+    for(int i=0;i<nums.size();i++){
+        sum+=nums[i];
+        max_sum=max(sum,max_sum);
+        if(sum<0){
+            sum=0;
+        }
+    }
+    return max_sum;
+    }
+};
+
+//question4: Assign Cookies
+class Solution {
+public:
+    int findContentChildren(vector<int>& g, vector<int>& s) {
+        if(s.size()>1){
+        for(int i=0;i<s.size()-1;i++){
+            bool b=true;
+            for(int j=0;j<s.size()-i-1;j++){
+                if(s[j]>s[j+1]){
+                    swap(s[j],s[j+1]);
+                    b=false;
+                }
+            }
+            if(b==true){
+                break;
+            }
+        }}
+        if(g.size()>1){
+        for(int i=0;i<g.size()-1;i++){
+            bool b=true;
+            for(int j=0;j<g.size()-i-1;j++){
+                if(g[j]>g[j+1]){
+                    swap(g[j],g[j+1]);
+                    b=false;
+                }
+            }
+            if(b==true){
+                break;
+            }
+        }}
+        int k=0;
+        int j=0;
+        for(int i=0;i<g.size();i++){
+            while(j<s.size()){
+                if(s[j]>=g[i]){
+                    k++;
+                    // s[j]=0;
+                    j++;
+                    break;
+                }
+                j++;
+            }
+        }
+        return k;
+    }
+};
