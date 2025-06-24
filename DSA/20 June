@@ -1,0 +1,137 @@
+//question 1: Rotate Image
+class Solution {
+public:
+    void rotate(vector<vector<int>>& matrix) {
+        for(int i=0;i<matrix.size();i++){
+            for(int j=i+1;j<matrix.size();j++){
+                swap(matrix[i][j],matrix[j][i]);
+                // swap(matrix[i][j],matrix[i][matrix.size()-1-i]);
+            }
+        }
+        for (int i = 0; i < matrix.size(); i++) {
+            int left = 0, right = matrix.size() - 1;
+            while (left < right) {
+                swap(matrix[i][left], matrix[i][right]);
+                    left++;
+                    right--;
+    }
+}
+
+        cout<<"[";
+        for(int i=0;i<matrix.size();i++){
+            cout<<"[";
+            for(int j=0;j<matrix.size();j++){
+                cout<<matrix[i][j]<<",";
+            }
+            cout<<"],";
+        }
+        cout<<"]";
+    }
+};
+
+//question 2: 3 Sum
+class Solution {
+public:
+    vector<vector<int>> threeSum(vector<int>& nums) {
+   
+        sort(nums.begin(),nums.end());
+        vector<vector<int>> arr;
+        if(nums.size()<3){
+            return {};
+        }
+        for(int i=0;i<nums.size();i++){
+            if(i>0&&nums[i]==nums[i-1]){
+                continue;
+            }
+            int l=i+1;
+            int r=nums.size()-1;
+            while(l<r){
+                int s=nums[i]+nums[l]+nums[r];
+                if(s==0){
+                    vector<int>q={nums[i],nums[l],nums[r]};
+                    arr.push_back(q);
+                    l++;
+                    r--;
+                    while(l<r&&nums[l]==nums[l-1]){
+                        l++;
+                    }
+                    while(l<r&&nums[r]==nums[r+1]){
+                        r--;
+                    }
+                }
+                else if(s<0){
+                    l++;
+                }
+                else{r--;}
+            }
+        }
+        return arr;
+    }
+};
+
+//question 3: Maximum Consecutive Ones
+class Solution {
+public:
+    int findMaxConsecutiveOnes(vector<int>& nums) {
+        int k=0,maxk=0;
+        for(int i=0;i<nums.size();i++){
+            if(nums[i]==1){
+                k++;
+            }
+            else{
+                maxk=max(k,maxk);
+                k=0;
+            }
+        }
+        maxk=max(k,maxk);
+        return maxk;
+    }
+};
+
+//question 4: Design Twitter
+class Twitter {
+    unordered_map<int, unordered_set<int>> follows;
+    unordered_map<int, vector<pair<int,int>>> userTweets;
+    int time = 0;
+
+public:
+    Twitter() {}
+
+    void postTweet(int userId, int tweetId) {
+        userTweets[userId].push_back({time++, tweetId});
+    }
+
+    vector<int> getNewsFeed(int userId) {
+        
+        priority_queue<pair<int,int>, vector<pair<int,int>>, greater<>> pq;
+
+        
+        follows[userId].insert(userId);
+
+        for (auto uid : follows[userId]) {
+            for (auto &t : userTweets[uid]) {
+                pq.push(t);
+                if (pq.size() > 10) pq.pop();
+            }
+        }
+
+        
+        vector<int> res;
+        while (!pq.empty()) {
+            res.push_back(pq.top().second);
+            pq.pop();
+        }
+        reverse(res.begin(), res.end());
+        return res;
+    }
+
+    void follow(int followerId, int followeeId) {
+        follows[followerId].insert(followeeId);
+    }
+
+    void unfollow(int followerId, int followeeId) {
+        if (followerId != followeeId) {
+            follows[followerId].erase(followeeId);
+        }
+    }
+};
