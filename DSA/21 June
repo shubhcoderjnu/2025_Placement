@@ -1,0 +1,127 @@
+// question 1: Minimize Size Subarray Sum
+class Solution {
+public:
+    int minSubArrayLen(int target, vector<int>& nums) {
+       int l=0,s=0,r=INT_MAX;
+       for(int i=0;i<nums.size();i++){
+        s+=nums[i];
+        while(s>=target){
+            r=min(r,i-l+1);
+            s-=nums[l++];
+        }
+       }
+       return r==INT_MAX?0:r;
+    }
+};
+
+//question 2: Majority Element II
+class Solution {
+public:
+    vector<int> majorityElement(vector<int>& nums) {
+        int n=floor(nums.size()/3);
+        vector<pair<int,int>>c;
+        vector<int>r;
+        if(c.size()==0&&nums.size()>0){
+            c.push_back({nums[0],1});
+        }
+        for(int i=1;i<nums.size();i++){
+            bool b=true;
+            for(int j=0;j<c.size();j++){
+                if(c[j].first==nums[i]){
+                    c[j].second++;
+                    b=false;
+                    break;
+                }
+            }
+            if(b==true){
+                c.push_back({nums[i],1});
+            }
+        }
+        for(int i=0;i<c.size();i++){
+            if(c[i].second>n){
+                r.push_back(c[i].first);
+            }
+        }
+        return r;
+    }
+};
+
+//question 3:Next Permutation
+class Solution {
+public:
+    void nextPermutation(vector<int>& nums) {
+        int end=nums.size()-1;
+        int i=end-1;
+        bool b=true;
+        int s;
+        while(i>=0){
+            if(nums[i]<nums[i+1]){
+                s=i;
+                b=false;
+                break;
+            }
+            i--;
+        }
+        if(b){
+            for(int i=0;i<=(end/2);i++){
+                swap(nums[i],nums[end-i]);
+            }
+            cout<<"[";
+            for(int i=0;i<=end;i++){
+                cout<<nums[i]<<",";
+            }
+            cout<<"]"<<endl;
+            return;
+        }
+        int ite=s+1;
+        for(int i=ite+1;i<=end;i++){
+            if(nums[i]>nums[s]){
+                nums[i]<=nums[ite]?ite=i:ite=ite;
+            }
+        }
+        swap(nums[s],nums[ite]);
+        // int l=end-s;
+        // for(int i=1;i<=(l/2);i++){
+        //     swap(nums[s+i],nums[end+1-i]);
+        // }
+        reverse(nums.begin()+s+1,nums.end());
+        cout<<"[";
+            for(int i=0;i<=end;i++){
+                cout<<nums[i]<<",";
+            }
+            cout<<"]"<<endl;
+            return;
+    }
+};
+
+//question 4:Grumpy Bookstore Owner
+class Solution {
+public:
+    int maxSatisfied(vector<int>& customers, vector<int>& grumpy, int minutes) {
+        int totalSatisfied = 0;
+
+        
+        for (int i = 0; i < customers.size(); ++i) {
+            if (grumpy[i] == 0) {
+                totalSatisfied += customers[i];
+            }
+        }
+
+        
+        int maxAdditional = 0, currentAdditional = 0;
+
+        for (int i = 0; i < customers.size(); ++i) {
+            if (grumpy[i] == 1) {
+                currentAdditional += customers[i];
+            }
+            if (i >= minutes) {
+                if (grumpy[i - minutes] == 1) {
+                    currentAdditional -= customers[i - minutes];
+                }
+            }
+            maxAdditional = max(maxAdditional, currentAdditional);
+        }
+
+        return totalSatisfied + maxAdditional;
+    }
+};
