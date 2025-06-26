@@ -1,0 +1,216 @@
+//question 1: singly linked list
+#include <iostream>
+using namespace std;
+class node{
+  public:
+  int data;
+  node* next;
+  node(int d){
+      data=d;
+      next=NULL;
+  }
+};
+  void inathead(node *&head,int d){
+      node *temp=new node(d);
+      temp->next=head;
+      head=temp;
+  }
+  void inatend(node *&head,int d){
+      if(head==NULL){
+          inathead(head,d);
+          return;
+      }
+      node* temp=head;
+      while(temp->next!=NULL){
+          temp=temp->next;
+      }
+      node* ne=new node(d);
+      temp->next=ne;
+  }
+  void inatpos(node*&head,int d,int i){
+      if(i==0){
+          inathead(head,d);
+          return;
+      }
+      node* temp=head;
+      int k=0;
+      while((i-1)!=k){
+          temp=temp->next;
+          k++;
+      }
+      node *ne=new node(d);
+      ne->next=temp->next;
+      temp->next=ne;
+  }
+  void delatbeg(node*&head){
+      if(head==NULL){
+          return;
+      }
+      node *ne=head;
+      head=head->next;
+      ne->next=NULL;
+      delete ne;
+  }
+  void delatend(node *&head){
+      if(head==NULL){
+          return;
+      }
+      node *temp=head;
+      if(temp==head &&temp->next==NULL){
+          node *ne=head;
+          head=NULL;
+          delete ne;
+          return;
+      }
+      while(temp->next->next!=NULL){
+          temp=temp->next;
+      }
+      node *ne=temp->next;
+      temp->next=NULL;
+      delete ne;
+  }
+  void delatpos(node*&head,int i){
+      if(head==NULL){
+          return;
+      }
+      if(i==0){
+          delatbeg(head);
+          return;
+      }
+      int c=0;
+      node* temp=head;
+      while(c!=i-1){
+          temp=temp->next;
+          c++;
+      }
+      node* ne=temp->next;
+      temp->next=temp->next->next;
+      ne->next=NULL;
+      delete ne;
+  }
+  void delatval(node*&head,int val){
+      node* temp=head;
+      if(head->data==val){
+          delatbeg(head);
+          return;
+      }
+      int c=0;
+      while(temp->next!=NULL && temp->next->data!=val){
+          temp=temp->next;
+          c++;
+      }
+      if(temp->next==NULL){
+          return;
+      }
+      delatpos(head,c+1);
+  }
+  void display(node* head){
+      node *temp=head;
+      while(temp!=NULL){
+          cout<<temp->data<<" ";
+          temp=temp->next;
+      }
+      cout<<"NULL"<<endl;
+  }
+
+int main() {
+    node* head=NULL;
+    inathead(head,5);
+    inathead(head,4);
+    inathead(head,3);
+    inathead(head,2);
+    inathead(head,1);
+    inathead(head,10);
+    inatend(head,11);
+    inatend(head,13);
+    inatpos(head,9,0);
+    inatpos(head,12,4);
+    delatbeg(head);
+    delatbeg(head);
+    delatend(head);
+    delatend(head);
+    delatpos(head,1);
+    delatpos(head,3);
+    delatval(head,5);
+    delatval(head,13);
+    display(head);
+    return 0;
+    
+}
+
+//question 2: delete in a singly linked list
+/* Link list Node
+struct Node
+{
+    int data;
+    struct Node* next;
+
+    Node(int x){
+        data = x;
+        next = NULL;
+    }
+};
+*/
+class Solution {
+  public:
+    /* Function to delete a node from a linked list */
+    Node* deleteNode(Node* head, int x) {
+        // code here
+        if(head==NULL){
+          return head;
+      }
+      if(x==1){
+          
+      Node *ne=head;
+      head=head->next;
+      ne->next=NULL;
+      delete ne;
+          return head;
+      }
+      int c=1;
+      Node* temp=head;
+      while(c!=x-1){
+          temp=temp->next;
+          c++;
+      }
+      Node* ne=temp->next;
+      temp->next=temp->next->next;
+      ne->next=NULL;
+      delete ne;
+      return head;
+    }
+};
+
+//quesstion 3: Find Middle
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* middleNode(ListNode* head) {
+        ListNode* temp=head;
+        int n=1;
+        while(temp->next!=NULL){
+            temp=temp->next;
+            n++;
+        }
+        int s,t=1;
+        
+            s=(n/2)+1;
+        
+       ListNode* newtemp=head;
+       while(t!=s){
+        newtemp=newtemp->next;
+        t++;
+       }
+       head=newtemp;
+       return head;
+    }
+};
