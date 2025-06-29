@@ -1,0 +1,140 @@
+//question 1:Palindrome Linked List
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* reverse(ListNode*&head,int c){
+        ListNode* tempbw=head;
+        ListNode* temp=head->next;
+        ListNode* tempfw=head->next->next;
+        head->next=NULL;
+        int k=1;
+        while(k!=c){
+            temp->next=tempbw;
+            tempbw=temp;
+            temp=tempfw;
+            tempfw=tempfw->next;
+            k++;
+        }
+        return tempbw;
+    }
+    bool isPalindrome(ListNode* head) {
+        int c=1;
+        ListNode* temp=head;
+        while(temp!=NULL&&temp->next!=NULL){
+            temp=temp->next;
+            c++;
+        }
+        if(c==1){
+            return true;
+        }
+        int k=1;
+        temp=head;
+        while(k!=c/2){
+            temp=temp->next;
+            k++;
+        }
+        temp=temp->next;
+        ListNode* rev=reverse(head,c/2);
+        if(c%2!=0){
+            temp=temp->next;
+        }
+        while(temp!=NULL&&temp->val==rev->val){
+            temp=temp->next;
+            rev=rev->next;
+        }
+        if(temp!=NULL){
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+};
+
+//question 2: Rotate List
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* rotateRight(ListNode* head, int k) {
+        if(head==NULL){
+            return head;
+        }
+        int c=1;
+        ListNode* t=head;
+        while(t->next!=NULL){
+            t=t->next;
+            c++;
+        }
+        k=k%c;
+        c=0;
+        while(c!=k){
+            ListNode* tempbw=head;
+            ListNode* temp=head->next;
+            if(temp==NULL){
+                return head;
+            }
+            while(temp->next!=NULL){
+                temp=temp->next;
+                tempbw=tempbw->next;
+            }
+            tempbw->next=NULL;
+            temp->next=head;
+            head=temp;
+            c++;
+        }
+        return head;
+    }
+};
+
+//question 3:Magical String
+class Solution {
+public:
+    int magicalString(int n) {
+        if(n<=3){
+            return 1;
+        }
+        vector<int> arr={1,2,2};
+        int i=2,l=2;
+        while(arr.size()<=n){
+            if(arr[l]==2){
+                for(int j=1;j<=arr[i];j++){
+                    arr.push_back(1);
+                }
+                l=arr.size()-1;
+                i++;
+            }
+            else{
+                for(int j=1;j<=arr[i];j++){
+                    arr.push_back(2);
+                }
+                l=arr.size()-1;
+                i++;
+            }
+        }
+        int c=0;
+        for(int i=0;i<n;i++){
+            if(arr[i]==1){
+                c++;
+            }
+        }
+        return c;
+    }
+};
