@@ -1,0 +1,132 @@
+//question 1:Add Two Numbers
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        ListNode* head=NULL;
+        ListNode* temp=head;
+        int c=0;
+        while(l1!=NULL||l2!=NULL){
+            ListNode* t;
+            int a=0;
+            if(l1==NULL){
+                a=c+0+l2->val;
+                l2=l2->next;
+            }
+            else if(l2==NULL){
+                a=c+0+l1->val;
+                l1=l1->next;
+            }
+            else{
+                a=c+l1->val+l2->val;
+                l1=l1->next;
+                l2=l2->next;
+            }
+                c=a/10;
+                a%=10;
+                t=new ListNode(a);
+                if(head==NULL){
+                   head=t; 
+                   temp=t;
+                }
+                else{
+                    temp->next=t;
+                    temp=temp->next;
+                }
+        }
+        if(c>0){
+            ListNode* t=new ListNode(c);
+            temp->next=t;
+        }
+        return head;
+    }
+};
+
+//question 2:Maximum Twin Sum
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* reverse(ListNode*&head,int c){
+        ListNode* tempbw=head;
+        ListNode* temp=head->next;
+        ListNode* tempfw=head->next->next;
+        head->next=NULL;
+        int k=1;
+        while(k!=c){
+            temp->next=tempbw;
+            tempbw=temp;
+            temp=tempfw;
+            tempfw=tempfw->next;
+            k++;
+        }
+        return tempbw;
+    }
+    int pairSum(ListNode* head) {
+        int c=1;
+        ListNode *temp=head;
+        while(temp->next!=NULL){
+            temp=temp->next;
+            c++;
+        }
+        temp=head;
+        int k=1;
+        while(k!=(c/2)+1){
+            temp=temp->next;
+            k++;
+        }
+        head=reverse(head,c/2);
+        int sum=0;
+        while(temp!=NULL){
+            sum=max(sum,head->val+temp->val);
+            temp=temp->next;
+            head=head->next;
+        }
+        return sum;
+    }
+};
+
+//question 3: Design Browser History
+class BrowserHistory {
+public:
+    vector<string> str;
+    int c = -1;
+
+    BrowserHistory(string homepage) {
+        str.push_back(homepage);
+        c = 0;
+    }
+
+    void visit(string url) {
+        str.resize(c + 1); // clear forward history
+        str.push_back(url);
+        c++;
+    }
+
+    string back(int steps) {
+        c = max(0, c - steps);
+        return str[c];
+    }
+
+    string forward(int steps) {
+        c = min((int)str.size() - 1, c + steps);
+        return str[c];
+    }
+};
