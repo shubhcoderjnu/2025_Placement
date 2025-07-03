@@ -1,0 +1,120 @@
+//question 1:Design Stack using Arrays
+#include<iostream>
+#include<vector>
+using namespace std;
+class stack{
+    public:
+    vector<int> arr;
+    int top(){
+        if(arr.size()!=0){
+            return arr.back();
+        }    
+    }
+    void top(int n){
+        arr.back()=n;
+    }
+    void push(int n){
+        arr.push_back(n);
+    }
+    int pop(){
+        int x=arr.back();
+        arr.erase(arr.end()-1);
+        return x;
+    }
+    int peep(int n){
+        return *(arr.begin()+n-1);
+    }
+};
+int main(){
+    stack st;
+    st.push(5);
+    st.push(4);
+    st.push(10);
+    st.push(12);
+    st.push(15);
+    cout<<st.top()<<endl;
+    st.top(14);
+    cout<<st.top()<<endl;
+    st.pop();
+    cout<<st.top()<<endl;
+    cout<<st.peep(3)<<endl;
+    return 0;
+}
+
+//question 2:Valid Parentheses
+class Solution {
+public:
+    bool isValid(string t) {
+    vector<char> s;
+    // string t;
+    // getline(cin,t);
+    int i=0;
+    while(i<t.size()){
+        char k=t[i];
+        if(k=='(' || k=='{' || k=='['){
+            s.push_back(k);
+        }
+        else{
+            if(s.empty()){
+                return false;
+            }
+            char q=s.back();
+            if((q=='(' && k==')')||(q=='{' && k=='}') ||(q=='[' && k==']')){
+                s.erase(s.end()-1);
+            }
+            else{
+                return false;
+            }
+        }
+        i++;
+    }
+    if(!s.empty()){
+        return false;
+    }
+    return true;
+    }
+};
+
+//question 3:Swapping Nodes
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* swapNodes(ListNode* head, int k) {
+       int i=0;
+       int l,r,ri;
+       ListNode* temp=head;
+       while(temp!=NULL){
+        if(k-1==i){
+            l=temp->val;
+        }
+        temp=temp->next;
+        i++;
+       }
+       temp=head;
+    ri=i-k;
+    int j=0;
+    while(j!=ri){
+        temp=temp->next;
+        j++;
+    }
+    r=temp->val;
+    temp->val=l;
+    temp=head;
+    int a=0;
+    while(a+1!=k){
+        temp=temp->next;
+        a++;
+    }
+    temp->val=r;
+    return head;
+    }
+};
